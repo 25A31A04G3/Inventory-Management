@@ -1,0 +1,97 @@
+#include <stdio.h>
+#include <string.h>
+
+struct product {
+    int id;
+    char name[30];
+    int quantity;
+    float price;
+};
+
+int main() {
+    struct product p[50];
+    int n = 0, choice, i, id, qty;
+    float total = 0;
+
+    do {
+        printf("\n\n--- Inventory Management System ---\n");
+        printf("1. Add Product\n");
+        printf("2. View Products\n");
+        printf("3. Update Stock\n");
+        printf("4. Sell Product\n");
+        printf("5. Low Stock Alert\n");
+        printf("6. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+
+        case 1:
+            printf("Enter Product ID: ");
+            scanf("%d", &p[n].id);
+            printf("Enter Product Name: ");
+            scanf("%s", p[n].name);
+            printf("Enter Quantity: ");
+            scanf("%d", &p[n].quantity);
+            printf("Enter Price: ");
+            scanf("%f", &p[n].price);
+            n++;
+            printf("Product Added Successfully!\n");
+            break;
+
+        case 2:
+            printf("\nID\tName\tQuantity\tPrice\n");
+            for (i = 0; i < n; i++) {
+                printf("%d\t%s\t%d\t\t%.2f\n",
+                       p[i].id, p[i].name, p[i].quantity, p[i].price);
+            }
+            break;
+
+        case 3:
+            printf("Enter Product ID to update stock: ");
+            scanf("%d", &id);
+            for (i = 0; i < n; i++) {
+                if (p[i].id == id) {
+                    printf("Enter new quantity: ");
+                    scanf("%d", &p[i].quantity);
+                    printf("Stock Updated Successfully!\n");
+                }
+            }
+            break;
+
+        case 4:
+            printf("Enter Product ID to sell: ");
+            scanf("%d", &id);
+            printf("Enter quantity to sell: ");
+            scanf("%d", &qty);
+
+            for (i = 0; i < n; i++) {
+                if (p[i].id == id && p[i].quantity >= qty) {
+                    p[i].quantity -= qty;
+                    total = qty * p[i].price;
+                    printf("Bill Amount: %.2f\n", total);
+                }
+            }
+            break;
+
+        case 5:
+            printf("\nLow Stock Products (Qty < 5):\n");
+            for (i = 0; i < n; i++) {
+                if (p[i].quantity < 5) {
+                    printf("%s (Qty: %d)\n", p[i].name, p[i].quantity);
+                }
+            }
+            break;
+
+        case 6:
+            printf("Exiting Program...\n");
+            break;
+
+        default:
+            printf("Invalid Choice!\n");
+        }
+
+    } while (choice != 6);
+
+    return 0;
+}
